@@ -2,27 +2,23 @@
 
 using UnrealBuildTool;
 
-public class GSEduItems : ModuleRules
+public class GSEduItemsEditor : ModuleRules
 {
-	public GSEduItems(ReadOnlyTargetRules Target) : base(Target)
+	public GSEduItemsEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core",
-		});
-
-		PublicDependencyModuleNames.AddRange(new string[]
-		{
-			"SlateCore",
-			"GameplayTags",
+			"Settings",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
 			"CoreUObject",
 			"Engine",
+			"GSEduItems",
 		});
 	}
 }

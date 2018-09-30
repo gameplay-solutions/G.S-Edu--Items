@@ -17,6 +17,11 @@
 			"Name": "GSEduItems",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
-		}
+		},
+		{
+			"Name": "GSEduItemsEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		},
 	]
 }
