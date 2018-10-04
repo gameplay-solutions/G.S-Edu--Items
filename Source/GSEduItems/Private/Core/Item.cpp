@@ -66,15 +66,7 @@ void UItemDataHelpers::UpdateObjectLibrary()
 	}
 	else
 	{
-		/**
-		 *	@note(devlinw): **NOT** using LoadBlueprintAssetDataFromPaths here,
-		 *	as we don't actually want the UBlueprint. We want the UClass.
-		 *	
-		 *	Infuriatingly, if the assets weren't populated in the registry then that means that we might end up with asset
-		 *	data for the UBlueprint ANYWAY. (async callback calls the version we don't want). I'm not sure whether it matters,
-		 *	ultimately.
-		 **/
-		InternalObjectLib->LoadAssetDataFromPaths(RawPaths, Settings->bForceSynchronousScan);
+		InternalObjectLib->LoadBlueprintAssetDataFromPaths(RawPaths, Settings->bForceSynchronousScan);
 	}
 }
 
