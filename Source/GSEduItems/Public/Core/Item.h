@@ -73,7 +73,16 @@ public:
 	static void EmptyObjectLibrary();
 
 	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Tag"), Category = "GSEduItems|ItemData|Accessors")
-	static UItemInfo* GetItemInfoByTag(const FGameplayTag& Tag);
+	static UItemInfo* GetItemInfoByTag(const FGameplayTag& Tag, bool bExact = false);
+
+	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Tag", AdvancedDisplay="Max"), Category = "GSEduItems|ItemData|Accessors")
+	static TArray<UItemInfo*> GetItemInfosByTag(const FGameplayTag& Tag, bool bExact = false, int32 Max = -1);
+
+	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Container"), Category = "GSEduItems|ItemData|Accessors")
+	static UItemInfo* GetItemInfoByTags(const FGameplayTagContainer& Container, bool bAll = true, bool bExact = false);
+
+	UFUNCTION(BlueprintCallable, meta = (AutoCreateRefTerm = "Container", AdvancedDisplay = "Max"), Category = "GSEduItems|ItemData|Accessors")
+	static TArray<UItemInfo*> GetItemInfosByTags(const FGameplayTagContainer& Container, bool bAll = true, bool bExact = false, int32 Max = -1);
 																										
 private:
 	static UObjectLibrary* InternalObjectLib;
