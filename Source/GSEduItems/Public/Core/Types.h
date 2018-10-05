@@ -12,8 +12,8 @@
  *	While each can represent a single property, items should bundle their
  *	data as much as possible. 
  **/
-UCLASS(BlueprintType, Blueprintable, DefaultToInstanced)
-class UInlineItemInfo : public UObject
+UCLASS(Abstract, BlueprintType, Blueprintable, DefaultToInstanced, editinlinenew, EarlyAccessPreview)
+class GSEDUITEMS_API UInlineItemInfo : public UObject
 {
 	GENERATED_BODY()
 };
@@ -54,11 +54,16 @@ bool GetFieldFromObject(const UObject* Object, const FName FieldName, typename T
 	return false;
 }
 
-USTRUCT(BlueprintType)
-struct FItemUIInfo
+/**
+ *	The following aren't InlineItemInfo because they're provided by this module and make less sense as that construct.
+ **/
+
+// Basic User Interface Data
+UCLASS(BlueprintType, DefaultToInstanced, EarlyAccessPreview, editinlinenew, Within=ItemInfo)
+class GSEDUITEMS_API UItemUIInfo : public UObject
 {
 	GENERATED_BODY()
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FText DisplayName;
 
@@ -68,15 +73,15 @@ struct FItemUIInfo
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSlateBrush DisplayImage;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Instanced)
 	TArray<UInlineItemInfo*> MiscInfo;
 };
 
-USTRUCT(BlueprintType)
-struct FItemWorldInfo
+UCLASS(BlueprintType, DefaultToInstanced, EarlyAccessPreview, editinlinenew, Within = ItemInfo)
+class GSEDUITEMS_API UItemWorldInfo : public UObject
 {
 	GENERATED_BODY()
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (MustImplement = "ItemWorldRepresentation", NoClear))
 	TSubclassOf<AActor> ActorRepresentation;
 		
@@ -84,8 +89,12 @@ struct FItemWorldInfo
 	TArray<UInlineItemInfo*> MiscInfo;
 };
 
-struct FItemCapacityInfo
+
+UCLASS(BlueprintType, DefaultToInstanced, EarlyAccessPreview, editinlinenew, Within = ItemInfo)
+class GSEDUITEMS_API UItemCapacityInfo : public UObject
 {
+	GENERATED_BODY()
+public: 
 	/**	
 	 *	Zero or one indicate no stacking, -1 or less indicates infinite stacking;
 	 *	Any number greater than one is the maximum amount of items that can stack. 
@@ -98,14 +107,14 @@ struct FItemCapacityInfo
 	TArray<UInlineItemInfo*> MiscInfo;
 };
 
+
+/** @note(devlinw): This will eventually become a more powerful lib for getting values from inlineinfo or objects containing them. */
 UCLASS()
 class USimpleTestsLib : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
 
-	UFUNCTION(BlueprintPure, meta = (AutoCreateRefTerm = "PropertyName"))
-	static bool GetFloatFromInfoStruct(const FItemUIInfo& Info, const FName& PropertyName, float& FoundFloat);
 
 	UFUNCTION(BlueprintPure, meta = (AutoCreateRefTerm = "PropertyName"))
 	static bool GetFloatByName(const UObject* From, const FName& PropertyName, float& FoundFloat);

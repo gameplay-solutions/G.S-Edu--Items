@@ -10,18 +10,26 @@
 
 class UObjectLibrary;
 
-UCLASS(Blueprintable)
-class UItemInfo : public UObject
+UCLASS(Blueprintable, EarlyAccessPreview)
+class GSEDUITEMS_API UItemInfo : public UObject
 {
 	GENERATED_BODY()
 public:
+	
+	UItemInfo();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, AssetRegistrySearchable)
 	FGameplayTagContainer ItemTags;
 
-	FItemWorldInfo		WorldInfo;
-	FItemUIInfo			UIInfo;
-	FItemCapacityInfo	CapacityInfo;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UItemWorldInfo*	WorldInfo;
+		
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UItemUIInfo*	UIInfo;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UItemCapacityInfo*	CapacityInfo;
+	
 };
 
 UCLASS(Config=Items)
@@ -36,7 +44,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Config)
 	bool bFullyLoadObjectsAtStart = false;
 	
-	/**	Whether to use weak references to iteminfo classes (only really good in the editor) */
+	/**	Whether to use weak references to iteminfo classes. (only really good in the editor) */
 	UPROPERTY(EditDefaultsOnly, Config)
 	bool bUseWeakReferences = false;
 
@@ -90,7 +98,7 @@ private:
 
 
 UCLASS(BlueprintType, Blueprintable)
-class ADefaultItemActor : public AActor, public IItemWorldRepresentation
+class GSEDUITEMS_API ADefaultItemActor : public AActor, public IItemWorldRepresentation
 {
 	GENERATED_BODY()
 };
