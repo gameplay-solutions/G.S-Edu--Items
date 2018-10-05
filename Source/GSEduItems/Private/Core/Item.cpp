@@ -208,7 +208,7 @@ TArray<UItemInfo*> UItemDataHelpers::GetItemInfosByTags(const FGameplayTagContai
 		{
 			if (bAll)
 			{
-				return	bExact ? Container.HasAllExact(Container) : Container.HasAll(Container)
+				return	bExact ? Container.HasAllExact(Container) : Container.HasAll(Container);
 			}
 			return	bExact ? Container.HasAnyExact(Container) : Container.HasAny(Container);
 		};
