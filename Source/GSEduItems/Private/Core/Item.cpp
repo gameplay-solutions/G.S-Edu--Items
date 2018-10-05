@@ -279,3 +279,10 @@ TArray<UItemInfo*> UItemDataHelpers::GetItemInfosByTags(const FGameplayTagContai
 }
 
 #undef GRAB_SETTINGS
+
+UItemInfo::UItemInfo()
+{
+	UIInfo = CreateDefaultSubobject<UItemUIInfo>(TEXT("UIInfo"));
+	WorldInfo = CreateDefaultSubobject<UItemWorldInfo>(TEXT("WorldInfo"));
+	CapacityInfo = CreateDefaultSubobject<UItemCapacityInfo>(TEXT("CapacityInfo"));
+}
