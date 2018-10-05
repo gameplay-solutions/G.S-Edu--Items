@@ -25,10 +25,10 @@ public:
 	UItemWorldInfo*	WorldInfo;
 		
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UItemUIInfo*	UIInfo;
+	UItemUIInfo* UIInfo;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UItemCapacityInfo*	CapacityInfo;
+	UItemCapacityInfo* CapacityInfo;
 	
 };
 
