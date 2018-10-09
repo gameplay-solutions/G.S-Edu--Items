@@ -30,6 +30,61 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UItemCapacityInfo* CapacityInfo;
 	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TSubclassOf<UObject> ActualItemClass;
+
+	template <typename T>
+	static const T* GetInfoFor(UObject* Object)
+	{
+		if (Object)
+		{
+			return GetInfoFor(Object->GetClass());
+		}
+
+		return nullptr;
+	}
+
+	template <typename T>
+	static const T* GetInfoFor(TSubclassOf<UObject> Class)
+	{
+		if (auto* Found = ItemToInfoMap.Find(Class))
+		{
+			return Cast<T>(*Found->GetDefaultObject());
+		}
+
+		return nullptr;
+	}
+
+	template <typename T>
+	static TSubclassOf<T> GetItemClassFrom(UItemInfo* Info)
+	{
+		if (Info)
+		{
+			return GetItemClassFrom(Info->GetClass());
+		}
+
+		return nullptr;
+	}
+
+	
+	template <typename T>
+	static TSubclassOf<T> GetItemClassFrom(TSubclassOf<UItemInfo> Class)
+	{
+		if (auto* Found = InfoToItemMap.Find(Class))
+		{
+			return TSubclassOf<T>(*Found);
+		}
+		
+		return nullptr;
+	}
+
+private:
+
+	virtual	void PreEditChange(UProperty* PropertyAboutToChange ) override;
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+
+	static TMap<TSubclassOf<UItemInfo>, TSubclassOf<UObject>> InfoToItemMap;
+	static TMap<TSubclassOf<UObject>, TSubclassOf<UItemInfo>> ItemToInfoMap;
 };
 
 UCLASS(Config=Items)

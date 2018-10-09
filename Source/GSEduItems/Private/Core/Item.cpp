@@ -285,4 +285,37 @@ UItemInfo::UItemInfo()
 	UIInfo = CreateDefaultSubobject<UItemUIInfo>(TEXT("UIInfo"));
 	WorldInfo = CreateDefaultSubobject<UItemWorldInfo>(TEXT("WorldInfo"));
 	CapacityInfo = CreateDefaultSubobject<UItemCapacityInfo>(TEXT("CapacityInfo"));
+
+	if (GetClass() != UItemInfo::StaticClass() && HasAnyFlags(RF_ClassDefaultObject))
+	{
+		if (ActualItemClass)
+		{
+			ItemToInfoMap.Add(ActualItemClass, GetClass());
+			InfoToItemMap.FindOrAdd(this) = ActualItemClass;
+		}		
+	}
+}
+
+void UItemInfo::PreEditChange(UProperty* PropertyAboutToChange)
+{
+	Super::PreEditChange(PropertyAboutToChange);
+	
+	if (PropertyAboutToChange->GetFName() == GET_MEMBER_NAME_CHECKED(UItemInfo, ActualItemClass))
+	{
+		ItemToInfoMap.Remove(ActualItemClass);
+	}
+}
+
+void UItemInfo::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UItemInfo, ActualItemClass))
+	{
+		if (ActualItemClass)
+		{
+			ItemToInfoMap.Add(ActualItemClass, GetClass());
+			InfoToItemMap.FindOrAdd(this) = ActualItemClass;
+		}
+	}
 }
